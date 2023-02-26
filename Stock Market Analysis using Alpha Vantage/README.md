@@ -2,9 +2,11 @@
 This program uses the Alpha Vnatge API to pull stock market data and contains the following python classes and functions to perform analytical tasks:
 1. Class ScriptData which can fetch US Stock data using Alpha Vantage.
 The class implements the following methods:
+
 a. fetch_intraday_data: (method arguments: script)
 Fetches intraday data for given “script” (Example for script: “GOOGL”,
 “AAPL”) and stores as it is.
+
 b. convert_intraday_data: (method arguments: script)
 Converts fetched intraday data (in point a.) as a pandas DataFrame
 (hereafter referred as “df”) with the following columns:
@@ -14,10 +16,37 @@ iii. high (data type: float)
 iv. low(data type: float)
 v. close (data type: float)
 vi. volume (data type: int)
+
 c. Additional methods for overloading the following operations:
 i. getitem
 ii. setitem
 iii. contains
+
+2. A function called indicator1. It takes “df” and ‘timeperiod’ (integer) as
+inputs and give another pandas DataFrame as an output with two columns:
+
+a. timestamp: Same as ‘timestamp’ column in ‘df’
+
+b. indicator: Moving Average of the ‘close’ column in ‘df’. The number of
+elements to be taken for a moving average is defined by ‘timeperiod’. For
+example, if ‘timeperiod’ is 5, then each row in this column will be an average
+of total 5 previous values (including current value) of the ‘close’ column.
+
+3. A class Strategy, which can do the following, given a script name:
+
+a. Fetch intraday historical day (‘df’) using ScriptData class.
+We’ll refer to the ‘close’ column of ‘df’ as close_data.
+
+b. Compute indicator data on ‘close’ of ‘df’ using indicator1 function.
+We’ll refer to the ‘indicator’ column of this data as indicator_data.
+
+c. Generate a pandas DataFrame called ‘signals’ with 2 columns:
+i. ‘timestamp’: Same as ‘timestamp’ column in ‘df’
+ii. ‘signal’: This column can have the following values:
+1. BUY (When: If indicator_data cuts close_data upwards)
+2. SELL (When: If indicator_data cuts close_data downwards)
+3. NO_SIGNAL (When: If indicator_data and close_data don’t cut
+each other)
 
 Here are a few pointers regrading the code:
 1. The classes are implemented in a way such that any user can create objects using their personal keys i.e. the API key is not hardcoded.
