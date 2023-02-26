@@ -1,4 +1,4 @@
-# AlgoBulls
+# Stock Market Analysis using Alpha Vantage
 This program uses the Alpha Vnatge API to pull stock market data and contains the following python classes and functions to perform analytical tasks:
 1. Class ScriptData which can fetch US Stock data using Alpha Vantage.
 The class implements the following methods:
